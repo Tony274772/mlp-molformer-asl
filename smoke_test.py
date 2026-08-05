@@ -3,7 +3,13 @@ Quick smoke test for the model and pipeline.
 """
 import sys
 import logging
+from src.runtime import configure_thread_limits, configure_torch_runtime
+
+configure_thread_limits()
+
 import torch
+configure_torch_runtime(torch)
+
 from src.config import Config
 from src.utils import set_seed
 from src.molformer_featurization import MolFormerFeaturizer

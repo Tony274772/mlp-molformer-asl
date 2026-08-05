@@ -4,13 +4,12 @@ Main entry point for training and evaluating the API-Excipient Compatibility mod
 
 import logging
 import sys
-import os
-os.environ["TRITON_DISABLE"] = "1"
-os.environ["TORCH_USE_TRITON"] = "0"
+from src.runtime import configure_thread_limits, configure_torch_runtime
+
+configure_thread_limits()
+
 import torch
-torch.backends.cuda.enable_flash_sdp(False)
-torch.backends.cuda.enable_mem_efficient_sdp(False)
-torch.backends.cuda.enable_math_sdp(True)
+configure_torch_runtime(torch)
 
 from src.config import Config
 from src.utils import set_seed, count_parameters

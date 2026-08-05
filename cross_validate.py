@@ -10,17 +10,16 @@ import logging
 import os
 import sys
 from dataclasses import replace
+from src.runtime import configure_thread_limits, configure_torch_runtime
+
+configure_thread_limits()
 
 import pandas as pd
 import torch
 from sklearn.metrics import auc, precision_recall_curve
 from sklearn.model_selection import StratifiedGroupKFold
 
-os.environ["TRITON_DISABLE"] = "1"
-os.environ["TORCH_USE_TRITON"] = "0"
-torch.backends.cuda.enable_flash_sdp(False)
-torch.backends.cuda.enable_mem_efficient_sdp(False)
-torch.backends.cuda.enable_math_sdp(True)
+configure_torch_runtime(torch)
 
 from src.config import Config
 from src.dataset import get_dataloader_from_dataframe
