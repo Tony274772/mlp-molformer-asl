@@ -1,0 +1,53 @@
+======================================================================
+STEP 1: RAW DATA
+======================================================================
+Total pairs           : 3544
+Compatible (0)         : 3200 (90.3%)
+Incompatible (1)       : 344 (9.7%)
+Unique API_CID          : 533
+Unique Excipient_CID    : 336
+
+======================================================================
+STEP 2: NEAR-DUPLICATE API CHECK (Butina, Tanimoto >= 0.85)
+======================================================================
+Unique APIs                     : 533
+Butina clusters (>=0.85 sim)    : 512
+Clusters with >1 API_CID        : 20
+APIs involved in a merged cluster: 41 (7.7% of all APIs)
+
+-> 7.7% > 5.0% threshold: using Butina cluster as the grouping key (catches near-duplicate APIs).
+
+======================================================================
+STEP 3: GROUPED STRATIFIED SPLIT (60/20/20)
+======================================================================
+
+======================================================================
+STEP 4: LEAKAGE VERIFICATION
+======================================================================
+Group overlap train<->val   : 0 groups
+Group overlap train<->test  : 0 groups
+Group overlap val<->test    : 0 groups
+
+No group leakage: every API (or API cluster) appears in exactly one split.
+
+API_CID overlap train<->val  : 0
+API_CID overlap train<->test : 0
+API_CID overlap val<->test   : 0
+
+Excipient_CID overlap train<->test (expected, NOT leakage): 114 / 143 test excipients also seen in train
+
+======================================================================
+STEP 5: SPLIT SUMMARY
+======================================================================
+TRAIN | rows= 2030 (57.3%) | pos= 191 ( 9.4%) | neg=1839 (90.6%) | unique APIs= 314 | unique excipients= 262
+VAL   | rows=  842 (23.8%) | pos=  76 ( 9.0%) | neg= 766 (91.0%) | unique APIs= 113 | unique excipients= 175
+TEST  | rows=  672 (19.0%) | pos=  77 (11.5%) | neg= 595 (88.5%) | unique APIs= 106 | unique excipients= 143
+
+======================================================================
+STEP 6: FILES WRITTEN
+======================================================================
+train.csv : 2030 rows
+val.csv   : 842 rows
+test.csv  : 672 rows
+grouping key used: butina_cluster
+======================================================================

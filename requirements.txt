@@ -1,0 +1,9 @@
+# API-Excipient Compatibility Prediction Model - Dependencies
+
+torch>=2.0
+numpy<2.0
+pandas
+scikit-learn
+rdkit
+transformers
+huggingface_hub
