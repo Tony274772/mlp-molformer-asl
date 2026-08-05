@@ -5,6 +5,7 @@ import os
 
 def configure_thread_limits(default_threads: str = "1") -> None:
     """Cap native thread pools before Torch/NumPy/RDKit/Transformers initialize."""
+    preserve_existing = os.environ.get("API_EXC_PRESERVE_THREAD_ENV") == "1"
     thread_env_vars = (
         "OMP_NUM_THREADS",
         "OPENBLAS_NUM_THREADS",
@@ -15,11 +16,14 @@ def configure_thread_limits(default_threads: str = "1") -> None:
         "RAYON_NUM_THREADS",
     )
     for name in thread_env_vars:
-        os.environ.setdefault(name, default_threads)
+        if preserve_existing:
+            os.environ.setdefault(name, default_threads)
+        else:
+            os.environ[name] = default_threads
 
-    os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
-    os.environ.setdefault("TRITON_DISABLE", "1")
-    os.environ.setdefault("TORCH_USE_TRITON", "0")
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
+    os.environ["TRITON_DISABLE"] = "1"
+    os.environ["TORCH_USE_TRITON"] = "0"
 
 
 def configure_torch_runtime(torch_module) -> None:
